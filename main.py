@@ -33,17 +33,6 @@ if st.button("Show Projection"):
         df = pd.DataFrame(projections, index=t)
         df.index.name = "Year"
 
-        #Calculating total portfolio growth
-        total_current_assets = sum(asset["current"] for asset in assets)
-        total_future_assets = df.iloc[-1].sum()
-        total_growth_rate = ((total_future_assets - total_current_assets)/ total_current_assets) * 100
-
-        #Show Growth
-        st.subheader("📊 Total Portfolio Growth")
-        st.write(f"Total Initial Value: {total_current_assets:,.2f}")
-        st.write(f"Total Future Value: {total_future_assets:,.2f}")
-        st.write(f"Total Growth Rate: {total_growth_rate:,.2f}")
-
         #Line Chart
         st.subheader("Growth over time")
         st.line_chart(df)
@@ -59,6 +48,17 @@ if st.button("Show Projection"):
         #Table
         st.subheader("Values in Future")
         st.dataframe(df)
+
+        # Calculating total portfolio growth
+        total_current_assets = sum(asset["current"] for asset in assets)
+        total_future_assets = df.iloc[-1].sum()
+        total_growth_rate = ((total_future_assets - total_current_assets) / total_current_assets) * 100
+
+        # Show Growth
+        st.subheader("📊 Total Portfolio Growth")
+        st.write(f"Total Initial Value: {total_current_assets:,.2f}")
+        st.write(f"Total Future Value: {total_future_assets:,.2f}")
+        st.write(f"Total Growth Rate: {total_growth_rate:,.2f}")
 
         #Download Excel
         excel_file = pd.ExcelWriter("Portfolio Projection.xlsx", engine="xlsxwriter")
